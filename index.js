@@ -1,11 +1,9 @@
 const express = require('express');
 const db = require('./data/db');
 
-const server = express();
-
-server.use(express.json());
-
 const urlRoot = '/api/users';
+const server = express();
+server.use(express.json());
 
 //GET FULL USERLIST
 server.get(urlRoot, (req, res) => {
@@ -61,7 +59,6 @@ server.delete(`${urlRoot}/:id`, (req, res) => {
 //ADD NEW USER
 server.post(urlRoot, (req, res) => {
   const user = req.body;
-
   if (!user.name || !user.bio) {
     res
       .status(400)

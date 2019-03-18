@@ -25,7 +25,7 @@ server.get(`${urlRoot}/:id`, (req, res) => {
   const { id } = req.params;
   db.findById(id)
     .then(user => {
-      if (user.id) {
+      if (user) {
         res.status(200).json(user);
       } else {
         res
@@ -93,13 +93,15 @@ server.put(`${urlRoot}/:id`, (req, res) => {
         if (count === 1) {
           res.status(200).json(count);
         } else {
-          res.status(500).json({ error: 'The user could not be removed' });
+          res
+            .status(404)
+            .json({
+              message: 'The user with the specified ID does not exist.',
+            });
         }
       })
       .catch(() => {
-        res
-          .status(404)
-          .json({ message: 'The user with the specified ID does not exist.' });
+        res.status(500).json({ error: 'The user could not be removed' });
       });
   }
 });
